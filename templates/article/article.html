@@ -1,0 +1,33 @@
+{% extends '../layouts/main.html' %}
+
+{% block title %}Статья - {{ article.article_title }}{% endblock %}
+
+{% block style %}
+<style>
+.articles {
+    margin-top: 60px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 articles">
+        <h1>{{ article.article_title }}</h1>
+        <h6>{{ article.article_date }}</h6>
+        <p>{{ article.article_text|safe }}</p>
+        <p>{{ article.article_likes }}</p>
+
+        <h5>Комментарии:</h5>
+        {% for comment in comments %}
+            <p>{{ comment.comment_text }}</p>
+        {% endfor %}
+
+        <form action="/articles/addcomment/{{ article.id }}/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="btn btn-success" value="Добавить комментарий">
+        </form>
+    </div>
+</div>
+{% endblock %}
